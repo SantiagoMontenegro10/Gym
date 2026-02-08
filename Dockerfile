@@ -40,5 +40,9 @@ RUN composer install \
     --no-interaction \
     --ignore-platform-reqs
 
+# Ejecutar migraciones (no falla si ya existen)
+RUN php artisan migrate --force || true
+
+
 # 8. Exponer puerto
 EXPOSE 80
