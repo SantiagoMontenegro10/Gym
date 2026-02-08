@@ -1,0 +1,36 @@
+FROM php:8.3-apache
+
+# Dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
+
+# Apache rewrite
+RUN a2enmod rewrite
+
+# Carpeta de trabajo
+WORKDIR /var/www/html
+
+# Copiar proyecto
+COPY . .
+
+# Permisos
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 storage bootstrap/cache
+
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Instalar dependencias PHP
+RUN composer install --no-dev --optimize-autoloader
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]
