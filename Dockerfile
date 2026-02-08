@@ -1,6 +1,6 @@
 FROM php:8.3-apache
 
-# Instalar dependencias del sistema
+# Dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -14,12 +14,20 @@ RUN apt-get update && apt-get install -y \
 # Habilitar mod_rewrite
 RUN a2enmod rewrite
 
+# Cambiar DocumentRoot a /public
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 # Copiar proyecto
 WORKDIR /var/www/html
 COPY . .
 
-# Instalar Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Crear carpetas necesarias
+RUN mkdir -p storage/framework/{cache,sessions,views} storage/logs bootstrap/cache
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html \
@@ -28,5 +36,9 @@ RUN chown -R www-data:www-data /var/www/html \
 # Instalar dependencias PHP
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Exponer puerto
+# Generar APP_KEY (solo si no existe)
+RUN php artisan key:generate --force || true
+
 EXPOSE 80
+
+CMD ["apache2-foreground"]
