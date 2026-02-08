@@ -1,0 +1,115 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.login-body {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* FONDO COMPLETO */
+.login-bg {
+    position: fixed;
+    inset: 0;
+    background: url("../img/logo.png") center center / cover no-repeat;
+    filter: brightness(0.45);
+    z-index: -1;
+}
+
+/* CONTENEDOR CENTRADO */
+.login-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TARJETA LOGIN */
+.login-card {
+    width: 380px;
+    background: rgba(15, 25, 35, 0.88);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 40px 35px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    color: #fff;
+}
+
+/* TITULO */
+.login-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+/* INPUTS */
+.input-group {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+}
+
+.input-group i {
+    color: #9ca3af;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.input-group input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-group input::placeholder {
+    color: #cbd5e1;
+}
+
+/* LINK */
+.forgot {
+    color: #a3e635;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+/* BOTON */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #a3e635, #65a30d);
+    color: #0f172a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(163,230,53,0.4);
+}
+
+/* ALERTAS */
+.alert {
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
