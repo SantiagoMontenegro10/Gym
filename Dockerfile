@@ -14,6 +14,13 @@ RUN apt-get update && apt-get install -y \
 # Apache
 RUN a2enmod rewrite
 
+# Laravel apunta a /public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
+    /etc/apache2/sites-available/*.conf \
+    /etc/apache2/apache2.conf
+
+# Proyecto
 WORKDIR /var/www/html
 COPY . .
 
@@ -24,13 +31,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
-# Composer SIN scripts
+# Dependencias PHP
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
     --no-interaction \
     --no-scripts \
     --ignore-platform-reqs
-
 
 EXPOSE 80
