@@ -25,6 +25,12 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
 # Composer SIN scripts
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-scripts \
+    --ignore-platform-reqs
+
 
 EXPOSE 80
