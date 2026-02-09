@@ -5,11 +5,13 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libpq-dev \
     zip \
     unzip \
     git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql
+
 
 # 2. Activar mod_rewrite
 RUN a2enmod rewrite
@@ -41,7 +43,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 # Ejecutar migraciones (no falla si ya existen)
-RUN php artisan migrate --force || true
+//RUN php artisan migrate --force || true//
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
