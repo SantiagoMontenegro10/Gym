@@ -46,13 +46,14 @@ RUN php artisan migrate --force || true
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-    # Copiar el script al contenedor
+# Copiar el script al contenedor
 COPY start.sh /start.sh
+
+# Darle permisos de ejecución dentro del contenedor
 RUN chmod +x /start.sh
 
 # Usar nuestro script como CMD
 CMD ["/start.sh"]
-
 
 # 8. Exponer puerto
 EXPOSE 80
