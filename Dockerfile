@@ -43,6 +43,9 @@ RUN composer install \
 # Ejecutar migraciones (no falla si ya existen)
 RUN php artisan migrate --force || true
 
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 
 # 8. Exponer puerto
 EXPOSE 80
